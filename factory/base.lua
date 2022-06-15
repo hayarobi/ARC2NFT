@@ -118,4 +118,13 @@ function new_arc2_nft(name, symbol, initial_supply, options, owner)
   return address
 end
 
-abi.register(new_arc2_nft)
+function _checkOwner()
+    assert(system.getCreator() == system.getSender(), "only owner can call")
+end
+
+-- init function is required to be used by proxy
+function init()
+    _checkOwner()
+end
+
+abi.register(init, new_arc2_nft)
